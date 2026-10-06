@@ -1,0 +1,70 @@
+# Cask template. The `release.yml` workflow substitutes the version and sha256
+# for the placeholders and pushes the result to RenaCode/homebrew-tap as
+# Casks/cloudmachine.rb. Edit THIS file - the next release overwrites the copy
+# in the tap.
+cask "cloudmachine" do
+  version "1.3.0"
+  sha256 "b8f65ab097556709c74a88923fa449ed948abe6f7819247e0168d7a1c765ac06"
+
+  url "https://github.com/RenaCode/CloudMachine/releases/download/v#{version}/CloudMachine-#{version}.dmg"
+  name "CloudMachine"
+  desc "Time Machine backups to Google Drive"
+  homepage "https://github.com/RenaCode/CloudMachine"
+
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
+  depends_on macos: :sonoma
+
+  app "CloudMachine.app"
+
+  # The release is not notarized (no Apple Developer account), so Gatekeeper
+  # would block the downloaded copy. The cask comes from the author's tap, and
+  # the file matches the sha256 above.
+  #
+  # The cask does NOT reload the launchd agents: the steps run in the Homebrew
+  # sandbox without access to ~/Library/LaunchAgents. It is not needed -
+  # the upgrade replaces the bundle with new files (new inodes), and that is
+  # exactly the procedure after which the agents start correctly. Should the
+  # watchdog stop anyway, `drive-status` and the app window will show a
+  # "THE WATCHDOG MAY NOT BE RUNNING" warning.
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{appdir}}/CloudMachine.app"]
+  end
+
+  # Deliberately WITHOUT `uninstall launchctl:` - Homebrew runs `uninstall`
+  # directives on `brew upgrade` too, and stopping
+  # com.renacode.cloudmachine.gdrive-buffer kills the rclone that holds the
+  # mount: the image only comes back after ~20 min, and an interrupted upload
+  # can cost the volume's root directory. The agents are removed manually
+  # (caveats).
+  uninstall quit: "com.renacode.cloudmachine"
+
+  # Deliberately without ~/.cloudmachine: that is where the upload buffer
+  # lives, i.e. backups not yet sent to Google Drive. Deleting it destroys the
+  # backup.
+  zap trash: [
+    "~/Library/Logs/CloudMachine",
+    "~/Library/Preferences/com.renacode.cloudmachine.plist",
+  ]
+
+  caveats <<~EOS
+    Open CloudMachine (`open -a CloudMachine`): its window lists the
+    remaining setup steps for this Mac, with a button for each.
+    See https://github.com/RenaCode/CloudMachine#getting-started
+
+    `brew upgrade` keeps the Google Drive mount running. Afterwards, check
+    that the backup watchdog still runs: `cloudmachine-agent drive-status`.
+
+    Uninstalling does NOT stop the launchd agents or delete the upload buffer
+    in ~/.cloudmachine (it may hold backups not yet sent to Google Drive).
+    Before `brew uninstall`, run:
+      cloudmachine-agent prepare-shutdown
+    then remove ~/Library/LaunchAgents/com.renacode.cloudmachine.*.plist.
+
+    Full Disk Access is tied to the release signing certificate: grant it once
+    and it survives upgrades. Moving from a locally built copy needs one re-grant.
+  EOS
+end
