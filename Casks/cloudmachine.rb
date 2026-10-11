@@ -3,8 +3,8 @@
 # Casks/cloudmachine.rb. Edit THIS file - the next release overwrites the copy
 # in the tap.
 cask "cloudmachine" do
-  version "1.3.8"
-  sha256 "6900d93c76278a907b7b564dc664e040cd853907bb9a706fb80f5dcc5dac96f1"
+  version "1.3.9"
+  sha256 "525d4fed55df77d5964dba57cbf97d73dafd7aad618fe4bbf9ff5d853e92a153"
 
   url "https://github.com/RenaCode/CloudMachine/releases/download/v#{version}/CloudMachine-#{version}.dmg"
   name "CloudMachine"
@@ -55,9 +55,11 @@ cask "cloudmachine" do
     remaining setup steps for this Mac, with a button for each.
     See https://github.com/RenaCode/CloudMachine#getting-started
 
-    `brew upgrade` keeps the Google Drive mount running; the app reloads the
-    background agents when it reopens. `cloudmachine-agent drive-status`
-    shows "Agents: OK" once they run the new version.
+    `brew upgrade --cask renacode/tap/cloudmachine` keeps the Google Drive
+    mount running; the app reloads the background agents when it reopens.
+    `cloudmachine-agent drive-status` shows "Agents: OK" once they run the
+    new version. If the window shows "Remote control of the Drive mount is
+    open", press Restart the mount there (or: cloudmachine-agent restart-mount).
 
     Uninstalling does NOT stop the launchd agents or delete the upload buffer
     in ~/.cloudmachine (it may hold backups not yet sent to Google Drive).
