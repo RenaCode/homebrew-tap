@@ -3,8 +3,8 @@
 # Casks/cloudmachine.rb. Edit THIS file - the next release overwrites the copy
 # in the tap.
 cask "cloudmachine" do
-  version "1.3.14"
-  sha256 "7664f978ed01ecdcc98a1f20a7fb362d2bfb4d776cf25083c6d2b38719a74609"
+  version "1.3.15"
+  sha256 "bbcab76671d5226a02311eafa9615a5db71ed81eaa57e066f067bc485f834b17"
 
   url "https://github.com/RenaCode/CloudMachine/releases/download/v#{version}/CloudMachine-#{version}.dmg"
   name "CloudMachine"
@@ -35,16 +35,12 @@ cask "cloudmachine" do
   end
 
   # Deliberately WITHOUT `uninstall launchctl:` - Homebrew runs `uninstall`
-  # directives on `brew upgrade` too, and stopping
-  # com.renacode.cloudmachine.gdrive-buffer kills the rclone that holds the
-  # mount: the image only comes back after ~20 min, and an interrupted upload
-  # can cost the volume's root directory. The agents are removed manually
-  # (caveats).
+  # directives on `brew upgrade` too, and the agents keep the machine and its
+  # guard going across an upgrade. The agents are removed manually (caveats).
   uninstall quit: "com.renacode.cloudmachine"
 
-  # Deliberately without ~/.cloudmachine: that is where the upload buffer
-  # lives, i.e. backups not yet sent to Google Drive. Deleting it destroys the
-  # backup.
+  # Deliberately without ~/.cloudmachine and ~/.lima: the machine and its
+  # upload buffer live there, i.e. backups not yet sent to Google Drive.
   zap trash: [
     "~/Library/Logs/CloudMachine",
     "~/Library/Preferences/com.renacode.cloudmachine.plist",
@@ -55,17 +51,19 @@ cask "cloudmachine" do
     remaining setup steps for this Mac, with a button for each.
     See https://github.com/RenaCode/CloudMachine#getting-started
 
-    `brew upgrade --cask renacode/tap/cloudmachine` keeps the Google Drive
-    mount running; the app reloads the background agents when it reopens.
-    `cloudmachine-agent drive-status` shows "Agents: OK" once they run the
-    new version. If the window shows "Remote control of the Drive mount is
-    open", press Restart the mount there (or: cloudmachine-agent restart-mount).
+    The backup runs in a Lima machine: `brew install lima` first.
 
-    Uninstalling does NOT stop the launchd agents or delete the upload buffer
-    in ~/.cloudmachine (it may hold backups not yet sent to Google Drive).
+    `brew upgrade --cask renacode/tap/cloudmachine` keeps the machine
+    running; the app reloads the background agents when it reopens.
+    `cloudmachine-agent vm-status` shows "Agents: OK" once they run the
+    new version.
+
+    Uninstalling does NOT stop the launchd agents or delete the machine
+    (its buffer may hold backups not yet sent to Google Drive).
     Before `brew uninstall`, run:
       cloudmachine-agent prepare-shutdown
-    then remove ~/Library/LaunchAgents/com.renacode.cloudmachine.*.plist.
+    then `limactl delete cmsmb` and remove
+    ~/Library/LaunchAgents/com.renacode.cloudmachine.*.plist.
 
     Full Disk Access is tied to the release signing certificate: grant it once
     and it survives upgrades. Moving from a locally built copy needs one re-grant.
