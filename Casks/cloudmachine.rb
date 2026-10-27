@@ -4,7 +4,7 @@
 # in the tap.
 cask "cloudmachine" do
   version "1.3.14"
-  sha256 "1e04600e539d213e46e23066e91786967419e6437d43bddabe0a21195fe2deab"
+  sha256 "7664f978ed01ecdcc98a1f20a7fb362d2bfb4d776cf25083c6d2b38719a74609"
 
   url "https://github.com/RenaCode/CloudMachine/releases/download/v#{version}/CloudMachine-#{version}.dmg"
   name "CloudMachine"
