@@ -3,8 +3,8 @@
 # Casks/cloudmachine.rb. Edit THIS file - the next release overwrites the copy
 # in the tap.
 cask "cloudmachine" do
-  version "1.3.20"
-  sha256 "3abc2546fe69e67438e3d99dad1d86492a8f665e7db9662745ddfae75c183bff"
+  version "1.3.21"
+  sha256 "8c2d4f19e9dd34d81e80aae697619b623cddf7e2df646e4fc7511cd38914c70a"
 
   url "https://github.com/RenaCode/CloudMachine/releases/download/v#{version}/CloudMachine-#{version}.dmg"
   name "CloudMachine"
