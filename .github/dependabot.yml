@@ -1,0 +1,11 @@
+# Dependency updates as PRs for review. Weekly; minor/patch grouped per ecosystem, majors separate.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    groups:
+      actions-minor-patch:
+        update-types: [minor, patch]
