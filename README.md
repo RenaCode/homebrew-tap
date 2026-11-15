@@ -17,6 +17,10 @@ versions.
 |---|---|
 | [`cloudmachine`](Casks/cloudmachine.rb) | [CloudMachine](https://github.com/RenaCode/CloudMachine) — Time Machine backups to Google Drive, with a menu-bar app. macOS 14+, Apple Silicon and Intel. |
 
+| Formula | What it is |
+|---|---|
+| [`tithekit`](Formula/tithekit.rb) | [TitheKit](https://tithekit.com) — a shared resource budget and priority queue for CI, builds and agents on a Mac (`brew install renacode/tap/tithekit`). Apple Silicon, macOS 15+. Proprietary binary, free community edition. Not published until the first release exists. |
+
 After installing, open the app (`open -a CloudMachine`); its window walks
 through the rest of the setup. See the
 [CloudMachine README](https://github.com/RenaCode/CloudMachine#getting-started).
