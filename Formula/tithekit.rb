@@ -2,8 +2,8 @@
 
 # TitheKit formula. This PR stays a draft until the first release exists.
 #
-# The sha256 below is a placeholder (all zeros) on purpose: it is set BY HAND after the tag, from the `.sha256` file of
-# the release (`tithekit-0.1.0-arm64.tar.gz.sha256` in RenaCode/tithekit-releases); the release does not change this file.
+# The sha256 is set BY HAND after each tag, from the `.sha256` file of the release
+# (`tithekit-<version>-arm64.tar.gz.sha256` in RenaCode/tithekit-releases); the release does not change this file.
 # Order after the tag: put the sum here, `brew audit --strict --new renacode/tap/tithekit`, `brew install` from the real
 # URL, `brew test`, then take the PR out of draft. Use final tags only (v0.1.0), never a -rc.N prerelease.
 #
@@ -14,7 +14,7 @@ class Tithekit < Formula
   homepage "https://tithekit.com"
   url "https://github.com/RenaCode/tithekit-releases/releases/download/v0.1.0/tithekit-0.1.0-arm64.tar.gz"
   version "0.1.0"
-  sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+  sha256 "20458e43487945473fab92ef6a2ac1165731a08c9b56086b5f585901754b654e"
   license :cannot_represent # proprietary binary license: LICENSE-BINARY.md in the archive
 
   depends_on arch: :arm64
