@@ -12,9 +12,9 @@
 class Tithekit < Formula
   desc "Resource budget and priority queue for CI, builds and agents on a Mac"
   homepage "https://tithekit.com"
-  url "https://github.com/RenaCode/tithekit-releases/releases/download/v0.1.1/tithekit-0.1.1-arm64.tar.gz"
-  version "0.1.1"
-  sha256 "d309efabe3a7484d1fc6591e5324bb33a8d8c3d3848df4a790963d178a56a98b"
+  url "https://github.com/RenaCode/tithekit-releases/releases/download/v0.2.0/tithekit-0.2.0-arm64.tar.gz"
+  version "0.2.0"
+  sha256 "b74b70f9219b682ecb9a27b73ddcdc05594d00e1ffd43c8f2a967aea1c5f9c1b"
   license :cannot_represent # proprietary binary license: LICENSE-BINARY.md in the archive
 
   depends_on arch: :arm64
