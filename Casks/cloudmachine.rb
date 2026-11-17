@@ -3,8 +3,8 @@
 # Casks/cloudmachine.rb. Edit THIS file - the next release overwrites the copy
 # in the tap.
 cask "cloudmachine" do
-  version "1.3.30"
-  sha256 "07be52726e0be2cbf1feb0d9b062f048a5c43fc11ca1e36570c4becb0b15b7e6"
+  version "1.3.31"
+  sha256 "4ae5c1a488b3137a4c8a9c241dfe802e31263deff01dfd035f559b6a7be91884"
 
   url "https://github.com/RenaCode/CloudMachine/releases/download/v#{version}/CloudMachine-#{version}.dmg"
   name "CloudMachine"
@@ -16,8 +16,6 @@ cask "cloudmachine" do
     strategy :github_latest
   end
 
-  # The backup machine runs in Lima; install it with the app instead of asking for a manual step.
-  depends_on formula: "lima"
   depends_on macos: :sonoma
 
   app "CloudMachine.app"
@@ -52,6 +50,8 @@ cask "cloudmachine" do
     Open CloudMachine (`open -a CloudMachine`): its window lists the
     remaining setup steps for this Mac, with a button for each.
     See https://github.com/RenaCode/CloudMachine#getting-started
+
+    The backup runs in a Lima machine: `brew install lima` first.
 
     `brew upgrade --cask renacode/tap/cloudmachine` keeps the machine
     running; the app reloads the background agents when it reopens.
