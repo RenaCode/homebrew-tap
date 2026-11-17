@@ -16,6 +16,8 @@ cask "cloudmachine" do
     strategy :github_latest
   end
 
+  # The backup machine runs in Lima; install it with the app instead of asking for a manual step.
+  depends_on formula: "lima"
   depends_on macos: :sonoma
 
   app "CloudMachine.app"
@@ -50,8 +52,6 @@ cask "cloudmachine" do
     Open CloudMachine (`open -a CloudMachine`): its window lists the
     remaining setup steps for this Mac, with a button for each.
     See https://github.com/RenaCode/CloudMachine#getting-started
-
-    The backup runs in a Lima machine: `brew install lima` first.
 
     `brew upgrade --cask renacode/tap/cloudmachine` keeps the machine
     running; the app reloads the background agents when it reopens.
